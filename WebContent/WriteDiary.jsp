@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=GB18030">
-<title>写点啥吧</title>
+<title>写日记</title>
 <script src="ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="${ctx}/js/ckeditor/ckeditor_msg.js"></script>
 <script type="text/javascript">
@@ -16,9 +16,11 @@ function test() {
     if(title==null|| title=="") { alert("请填写标题！");}
     if(editor_data==null || editor_data==""){  alert("请填写内容！");}
     else{
-	//以下为Ajax
-	    var param = "title="+ title+ "&content="+ encodeURIComponent(editor_data)+"&uid="+${sessionScope.uid};
-	    //alert(editor_data);
+	//以下为Ajax	
+	//alert("else executed.")
+	    var param = "title="+ title+ "&content="+ encodeURIComponent(editor_data)+"&uid="+${sessionScope.uid}
+	    + "&userName=" + "${sessionScope.userName}";//字符串必须把el打上引号，否则语句不执行。
+	    //alert("else executed after param.");
     	var URL="DiaryServlet?action=save&nocache="+new Date().getTime();
     		//document.myform.submit();//把表单里的内容传给request
 		var xmlhttp;
@@ -31,16 +33,18 @@ function test() {
 		xmlhttp.onreadystatechange=function(){
 			//alert("readystate"+xmlhttp.readyState)
   			if (xmlhttp.readyState==4 && xmlhttp.status==200){
-    		//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-			alert(xmlhttp.responseText);		//弹出提示信息
-			window.location.href='DiaryServlet?action=listMyDiary';	//跳转到日记列表
+	    		//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+				//alert(xmlhttp.responseText);		//弹出提示信息
+				document.getElementById("div_info").innerHTML=xmlhttp.responseText;
+				setTimeout("window.location.href='DiaryServlet?action=listMyDiary'",1500);//跳转到日记列表
     		}else{
     			//alert("出错了2！");
+    			document.getElementById("div_info").innerHTML="发表失败！请稍后重试。";
     		}
   		}
 		xmlhttp.open("POST", URL, false);
 		xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-		alert(param);
+		//alert(param);
 		xmlhttp.send(param);
     }
 }
@@ -58,6 +62,7 @@ function test() {
 	</div>
 </div>
 <br><br>
+
 <!----------------------------------------- 编辑器部分 ------------------------------------------->
 
  		<form action="DiaryServlet.save" name="myform" method="post" id="myform"> 
@@ -71,5 +76,7 @@ function test() {
             </script>
 			<input type="button" onclick="test()" value="提交数据"/>
         </form>
+<!-- 日志提交信息提示 -->
+<div id="div_info" style="text-align: center; color:red;"></div>        
 </body>
 </html>

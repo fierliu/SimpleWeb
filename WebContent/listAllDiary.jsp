@@ -25,7 +25,7 @@
 				<div style="padding:10px;background-color:#FFFFFF;text-align:right;color:#999999;">
 					发表时间：<fmt:formatDate value="${diaryList.writeTime}" type="both"  pattern="yyyy-MM-dd HH:mm:ss"/>  
 					<c:if test="${sessionScope.userName==diaryList.username}">
-						<a href="DiaryServlet?action=delDiary&id=${diaryList.id }&url=${requestScope.url}">[删除]</a> 
+						<!-- a href="DiaryServlet?action=delDiary&id=${diaryList.id }&url=${requestScope.url}">[删除]</a> --> 
 					</c:if>
 				</div>
 			</div>

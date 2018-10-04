@@ -54,16 +54,17 @@ public class UserServlet extends HttpServlet{
 		User f = new User();
 		f.setUsername(request.getParameter("username")); // 获取并设置用户名
 		f.setPwd(request.getParameter("password")); // 获取并设置密码
-		System.out.println("name:" + request.getParameter("username") + " password:" + request.getParameter("password"));
-		int r = userDao.login(f);//转到UserDaoTemplate.java
+//		System.out.println("name:" + request.getParameter("username") + " password:" + request.getParameter("password"));
+		int r = userDao.login(f);//转到UserDaoTemplate.java,返回用户id.
 		if (r >0) {// 当用户登录成功时
 			//将登录状态保存到session中
 			HttpSession session = request.getSession();
 			session.setAttribute("userName", f.getUsername());// 保存用户名
+//			System.out.println("f.getUsername() on UserServlet.login(): " + f.getUsername());
 			session.setAttribute("uid", r);// 保存用户ID
 			request.setAttribute("returnValue", "登录成功！");// 保存提示信息,用requestScope进行展示			
 			request.getRequestDispatcher("success.jsp").forward(request, response);// 重定向页面
-			System.out.println("登录成功");
+//			System.out.println("登录成功");
 		} else {// 当用户登录不成功时
 			response.setCharacterEncoding("utf-8");
 			response.setContentType("text/html"); 
@@ -115,7 +116,7 @@ public class UserServlet extends HttpServlet{
 //	用户退出
 	private void exit(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("exit called.");
+//		System.out.println("exit called.");
 		HttpSession session = request.getSession();// 获取HttpSession的对象
 		session.invalidate();// 销毁session
 		request.getRequestDispatcher("index.jsp")

@@ -24,4 +24,9 @@
       class="com.allan.dao.DiaryDao">
       <property name="dataSource"  ref="dataSource" />    
    </bean>
+   
+   <bean id="pageDao" 
+      class="com.allan.dao.PageDao">
+      <property name="dataSource"  ref="dataSource" />    
+   </bean>
 </beans>

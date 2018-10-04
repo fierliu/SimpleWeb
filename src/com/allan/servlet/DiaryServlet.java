@@ -2,6 +2,8 @@ package com.allan.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -28,8 +30,9 @@ public class DiaryServlet extends HttpServlet {
 	MyPagination pagination = null;// 数据分页类的对象
 	
 	public DiaryServlet() {
+		@SuppressWarnings("resource")
 		ApplicationContext context = new FileSystemXmlApplicationContext(
-				"C:\\Users\\allan\\eclipse-workspace\\SimpleWeb\\WebContent\\WEB-INF\\Beans.xml");
+				"D:\\\\IT\\\\WEB\\\\SimpleWeb-master\\\\WebContent\\WEB-INF\\Beans.xml");
 		diaryDao = (DiaryDao)context.getBean("diaryDao");		
 	}
 	
@@ -55,23 +58,32 @@ public class DiaryServlet extends HttpServlet {
 	//保存文章
 	public void save(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+//		LocalDateTime currentDateTime = LocalDateTime.now();
 //		System.out.println("save called");
 		String title = request.getParameter("title");
 		String uid = request.getParameter("uid"); 
+		String username = request.getParameter("userName");
+		Date date = new Date();
+		Timestamp writeTime = new Timestamp(date.getTime());
+
 		String content = request.getParameter("content"); // 获取文章内容!注意，post方法中不能有&和=等特殊字符。
-		System.out.println("title:"+title+"  content:"+content);
-		String WriteTime = request.getParameter("WriteTime");		
-		String sql = "INSERT INTO tb_diary (title, uid, content) VALUE ('"
+//		System.out.println("title:"+title+";  content:"+content);
+//		String WriteTime = request.getParameter("WriteTime");		
+		String sql = "INSERT INTO tb_diary (title, uid, username, writeTime, content) VALUE ('"
 				+ title
 				+ "','"
 				+ uid
+				+ "','"
+				+ username
+				+ "','"
+				+ writeTime
 				+ "','"
 				+ content
 				+ "' );";
 //		System.out.print(sql);
 //		System.out.println(content);
 		String result = diaryDao.save(sql);// 保存用户信息
-		System.out.println(result);
+//		System.out.println("result:(>0, success; else, failed;)：" + result);
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html"); // 设置响应的类型
 		PrintWriter out = response.getWriter();
@@ -92,13 +104,13 @@ public class DiaryServlet extends HttpServlet {
 			//此句即以tb_user的id和tb_diary的uid等值连接,用降序查询所有tb_diary的所有数据和tb_user的username
 			pagination = new MyPagination();
 			list = diaryDao.require(sql);// 获取日记内容（由diary对象组成的列表）
-			System.out.println(list.size());
+//			System.out.println(list.size());
 			int pagesize = 4; // 指定每页显示的记录数
 			list = pagination.getInitPage(list, Page, pagesize); // 初始化分页信息，获取首页内容
 			request.getSession().setAttribute("pagination", pagination);
 		} else {
 			pagination = (MyPagination) request.getSession().getAttribute("pagination");
-			System.out.println("currentPage="+ currentPage);
+//			System.out.println("currentPage="+ currentPage);
 			Page = pagination.getPage(currentPage);// 获取当前页码
 			list = pagination.getAppointPage(Page); // 获取指定页数据
 		}
@@ -131,7 +143,7 @@ public class DiaryServlet extends HttpServlet {
 			list = pagination.getAppointPage(Page); // 获取指定页数据
 		}
 		for(Diary diary: list) {
-			System.out.println(diary.getWriteTime().toString());
+//			System.out.println(diary.getWriteTime().toString());
 		}
 		request.setAttribute("diaryList", list); // 保存当前页的日记信息
 		request.setAttribute("Page", Page); // 保存的当前页码

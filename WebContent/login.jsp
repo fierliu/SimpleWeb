@@ -56,14 +56,12 @@
 			</tr>  
             <tr>  
                 <td height="49" colspan="2">
-              <input type="button" class="btn btn-block btn-primary" value="µÇÂ¼" onClick="check(this.form)" color="red"/></td>
+              <input type="button" class="btn btn-block btn-primary" value="µÇÂ¼" onClick="check(this.form)"/></td>
             </tr>
 			<tr>
-			  <td height="22" colspan=""><div align="center"><a href="register.jsp">×¢²á</a></div></td><div align="left"></div>
+			  <td height="22" colspan=""><div align="center"><a href="register.jsp">×¢²á</a></div></td>
 			</tr>
       </table> 
     </form>  
-
-    </div>
 </body>  
 </html>

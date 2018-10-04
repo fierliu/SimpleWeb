@@ -6,13 +6,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.allan.model.User;
 
 public class UserDaoTemplate implements UserDao {
+	@SuppressWarnings("unused")
 	private DataSource dataSource; //连接数据库的bean
 	private JdbcTemplate jdbcTemplateObject; 
 	
 	public void setDataSource(DataSource dataSource) {
 	      this.dataSource = dataSource;
 	      this.jdbcTemplateObject = new JdbcTemplate(dataSource);
-//	      System.out.println("dusedaotmp初始化了");
+//	      System.out.println("usedaotmp初始化了");
 	   }
 
 	@Override

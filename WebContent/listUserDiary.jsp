@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=GB18030">
-<title>Insert title here</title>
+<title>我的日记</title>
 </head>
 <body>
 	<div id="navigation">
@@ -48,7 +48,8 @@
 				<div style="padding:10px;background-color:#FFFFFF;text-align:right;color:#999999;">
 					发表时间：<fmt:formatDate value="${diaryList.writeTime}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/> 
 					<c:if test="${sessionScope.userName==diaryList.username}">
-						<a href="DiaryServlet?action=delDiary&id=${diaryList.id }&url=${requestScope.url}">[删除]</a> 
+						<a href="DiaryServlet?action=delDiary&id=${diaryList.id }&url=${requestScope.url}"
+						onclick="return delConfirm();">[删除]</a> 						
 					</c:if>
 				</div>
 			</div>
@@ -58,6 +59,20 @@
 <c:if test="${empty requestScope.diaryList}">
 暂无文章！
 </c:if>
+<!-- 删除确认-->
+<script type="text/javascript">
+function delConfirm(){
+	var r=confirm("文章将会删除，不可恢复!");
+	if (r==true){
+		//a href will executed.
+		return true;
+	}
+	else{
+	  	return false;//a href will not be executed.
+	}
+}
+
+</script>
 <!-- 显示分页导航 -->
 <div style="background-color: #FFFFFF;">
 	 <%=pagination.printCtrl(Integer.parseInt(request.getAttribute("Page").toString()),"DiaryServlet?action="+request.getAttribute("url"),"")%> 
